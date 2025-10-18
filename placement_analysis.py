@@ -22,7 +22,7 @@ print("="*60)
 
 # Step 1: Load the dataset
 print("\n📊 Step 1: Loading Dataset...")
-df = pd.read_csv('placementdata.csv')
+df = pd.read_csv('../../data/placementdata.csv')
 print(f"✅ Dataset loaded successfully!")
 print(f"📐 Shape: {df.shape} (Rows: {df.shape[0]}, Columns: {df.shape[1]})")
 

@@ -10,7 +10,7 @@ warnings.filterwarnings('ignore')
 
 # Load and preprocess data
 print("📊 Creating visualizations for placement analysis...")
-df = pd.read_csv('placementdata.csv')
+df = pd.read_csv('../../data/placementdata.csv')
 
 # Preprocessing
 df_processed = df.copy()
