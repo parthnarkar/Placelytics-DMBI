@@ -214,28 +214,102 @@ if analysis_type == "Executive Dashboard":
     with col4:
         st.metric("With Training", f"{with_training}")
     
+    # Spacer to increase bottom padding under KPIs so charts appear lower on the page
+    st.markdown("<div style='height:48px;'></div>", unsafe_allow_html=True)
     # Placement Rate by Performance Tier
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        tier_analysis = df_processed.groupby('Performance_Tier')['PlacementStatus'].apply(
-            lambda x: (x == 'Placed').mean() * 100
-        ).reset_index()
-        
-        fig = px.bar(tier_analysis, x='Performance_Tier', y='PlacementStatus',
-                     title="Placement Rate by Performance Tier",
-                     labels={'PlacementStatus': 'Placement Rate (%)'})
-        fig.update_traces(marker_color='lightblue')
-        st.plotly_chart(fig, use_container_width=True)
-    
-    with col2:
+    # Create 5 columns: left, center-left (pie), gap, center-right (stack), right
+    # make center columns wider (center-left and center-right bigger) and keep a small gap
+    col_left, col_center_left, gap_col, col_center_right, col_right = st.columns([0.8,2,0.4,2,0.8])
+
+    with col_left:
+        # Stacked bar: counts of Placed vs NotPlaced per Performance_Tier
+        expected_tiers = ['Basic_Performer']
+        placed_counts = df_processed[df_processed['PlacementStatus'] == 'Placed']['Performance_Tier'].value_counts().reindex(expected_tiers).fillna(0)
+        notplaced_counts = df_processed[df_processed['PlacementStatus'] != 'Placed']['Performance_Tier'].value_counts().reindex(expected_tiers).fillna(0)
+        total_counts = placed_counts + notplaced_counts
+        placement_rates = (placed_counts / total_counts * 100).fillna(0)
+
+        # Create horizontal stacked bars (tiers on y-axis)
+        fig = go.Figure()
+        fig.add_trace(go.Bar(
+            y=expected_tiers,
+            x=placed_counts.values,
+            orientation='h',
+            name='Placed',
+            text=placed_counts.values,            # show counts inside bars
+            textposition='inside',
+            width=0.4,                             # reduce bar thickness
+            marker_color='#10B981',
+            hovertemplate='%{y}<br>Placed: %{x}<extra></extra>'
+        ))
+        fig.add_trace(go.Bar(
+            y=expected_tiers,
+            x=notplaced_counts.values,
+            orientation='h',
+            name='Not Placed',
+            text=notplaced_counts.values,        # show counts inside bars
+            textposition='inside',
+            width=0.4,                             # reduce bar thickness
+            marker_color='#EF4444',
+            hovertemplate='%{y}<br>Not Placed: %{x}<extra></extra>'
+        ))
+
+        # Add placement rate annotations to the right of each stacked bar
+        annotations = []
+        max_total = max(total_counts.values) if len(total_counts.values) > 0 else 0
+        for i, tier in enumerate(expected_tiers):
+            annotations.append(dict(
+                x=total_counts.values[i] + max_total*0.02,
+                y=tier,
+                text=f"{placement_rates.values[i]:.1f}%",
+                showarrow=False,
+                xanchor='left',
+                font=dict(color='white', size=12)
+            ))
+
+    fig.update_layout(
+        barmode='stack',
+        title='Placed vs Not Placed by Performance Tier (with Placement %)',
+        template='plotly_dark',
+        annotations=annotations,
+        legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='right', x=1),
+        bargap=0.4,
+    )
+
+    fig.update_xaxes(title_text='Number of Students')
+    fig.update_yaxes(title_text='Performance Tier', automargin=True)
+    st.plotly_chart(fig, use_container_width=True)
+
+    with col_center_left:  # left center: CGPA pie
         cgpa_analysis = df_processed.groupby('CGPA_Category')['PlacementStatus'].apply(
             lambda x: (x == 'Placed').mean() * 100
         ).reset_index()
-        
+
         fig = px.pie(cgpa_analysis, values='PlacementStatus', names='CGPA_Category',
                      title="Placement Distribution by CGPA Category")
+        fig.update_traces(textinfo='percent+label')
+        fig.update_layout(margin=dict(t=40, b=20, l=20, r=20), height=420)
         st.plotly_chart(fig, use_container_width=True)
+
+    with col_center_right:  # right center: stacked counts by CGPA category
+        cgpa_counts = df_processed.groupby(['CGPA_Category', 'PlacementStatus']).size().unstack(fill_value=0)
+        # Ensure consistent ordering of categories
+        category_order = ['Below_Average', 'Average', 'Good', 'Excellent']
+        cgpa_counts = cgpa_counts.reindex(category_order).fillna(0)
+
+        fig2 = go.Figure()
+        if 'Placed' in cgpa_counts.columns:
+            fig2.add_trace(go.Bar(name='Placed', x=cgpa_counts.index.astype(str), y=cgpa_counts['Placed'], marker_color='#10B981'))
+        if 'NotPlaced' in cgpa_counts.columns:
+            # handle both 'NotPlaced' and 'Not Placed' keys
+            y_vals = cgpa_counts.get('NotPlaced') if 'NotPlaced' in cgpa_counts.columns else cgpa_counts.get('Not Placed')
+            if y_vals is not None:
+                fig2.add_trace(go.Bar(name='Not Placed', x=cgpa_counts.index.astype(str), y=y_vals, marker_color='#EF4444'))
+
+        fig2.update_layout(barmode='stack', title='Counts by CGPA Category (Placed vs Not Placed)', template='plotly_dark', margin=dict(t=40, b=20), height=420)
+        fig2.update_xaxes(title_text='CGPA Category')
+        fig2.update_yaxes(title_text='Number of Students')
+        st.plotly_chart(fig2, use_container_width=True)
 
 elif analysis_type == "Predictive Analytics":
     st.header("Predictive Analytics & Machine Learning Insights")
@@ -733,12 +807,92 @@ elif analysis_type == "Trend Analysis":
     for insight in insights:
         st.markdown(f"- {insight}")
 
-# Footer
+# Dynamic footers per analysis type
+footer_texts = {
+        "Executive Dashboard": """
+        <div>
+            <h4 style='margin:0 0 0.5rem 0;'>Executive Dashboard Summary</h4>
+            <ul>
+                <li>High-level KPIs and placement performance snapshots</li>
+                <li>Placement Rate comparisons by performance tiers and CGPA</li>
+                <li>Actionable items: focus areas for improving institutional placement outcomes</li>
+            </ul>
+        </div>
+        """,
+        "Predictive Analytics": """
+        <div>
+            <h4 style='margin:0 0 0.5rem 0;'>Predictive Analytics Notes</h4>
+            <ul>
+                <li>Models trained in-session (Random Forest, Logistic Regression, Gradient Boosting)</li>
+                <li>Use the Individual Student Prediction panel to estimate placement probability</li>
+                <li>Interpret probabilities with caution and combine with domain knowledge for decisions</li>
+            </ul>
+        </div>
+        """,
+        "Student Segmentation": """
+        <div>
+            <h4 style='margin:0 0 0.5rem 0;'>Student Segmentation Insights</h4>
+            <ul>
+                <li>Students are clustered by Academic Index, Experience Score and Competency Score</li>
+                <li>Use cluster characteristics to design targeted interventions and programs</li>
+                <li>Monitor cluster placement rates to evaluate program effectiveness</li>
+            </ul>
+        </div>
+        """,
+        "Feature Analysis": """
+        <div>
+            <h4 style='margin:0 0 0.5rem 0;'>Feature Analysis Guidance</h4>
+            <ul>
+                <li>Explore feature distributions and correlations to identify strong predictors</li>
+                <li>Leverage insights to prioritize student support and curriculum adjustments</li>
+                <li>Statistical summaries are provided for quick comparisons</li>
+            </ul>
+        </div>
+        """,
+        "Risk Analytics": """
+        <div>
+            <h4 style='margin:0 0 0.5rem 0;'>Risk Analytics & Intervention</h4>
+            <ul>
+                <li>Identifies at-risk students using combined criteria (CGPA, internships, aptitude, training)</li>
+                <li>Provides counts and major risk drivers to help prioritize interventions</li>
+                <li>Use this view to plan targeted mentoring and upskilling programs</li>
+            </ul>
+        </div>
+        """,
+        "Trend Analysis": """
+        <div>
+            <h4 style='margin:0 0 0.5rem 0;'>Trend Analysis Summary</h4>
+            <ul>
+                <li>Displays placement trends across CGPA ranges and experience levels</li>
+                <li>Helps evaluate long-term program impact and placement strategies</li>
+                <li>Use trends to inform policy and training investments</li>
+            </ul>
+        </div>
+        """
+}
+
+default_footer = """
+<div>
+    <h4 style='margin:0 0 0.5rem 0;'>DMBI Concepts Implemented</h4>
+    <ul>
+        <li>Data Mining: Feature Engineering, Clustering, Classification</li>
+        <li>Business Intelligence: KPIs, Segmentation, Risk Analytics, Trend Analysis</li>
+        <li>Advanced Analytics: Predictive Modeling, Statistical Analysis, Correlation Mining</li>
+    </ul>
+</div>
+"""
+
+# Render the footer specific to the active analysis type
 st.markdown("---")
-st.markdown("""
-**DMBI Concepts Implemented:**
-- Data Mining: Feature Engineering, Clustering, Classification
-- Business Intelligence: KPIs, Segmentation, Risk Analytics, Trend Analysis
-- Advanced Analytics: Predictive Modeling, Statistical Analysis, Correlation Mining
-""")
-st.markdown("*Built using Advanced Data Mining & Business Intelligence Techniques*")
+st.markdown(footer_texts.get(analysis_type, default_footer), unsafe_allow_html=True)
+st.markdown(
+    """
+    <h4 style="text-align:center; margin-top:5rem;">
+        Built with ❤️ by 
+        <a href="https://www.instagram.com/parth.builds" target="_blank" style="text-decoration:none; color:#FF4B4B;">
+            @parth.builds
+        </a>
+    </h4>
+    """,
+    unsafe_allow_html=True
+)
