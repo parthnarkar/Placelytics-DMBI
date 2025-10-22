@@ -14,7 +14,7 @@ if [ ! -d ".venv" ]; then
 fi
 
 # Check if data file exists
-if [ ! -f "placementdata.csv" ]; then
+if [ ! -f "data/placementdata.csv" ]; then
     echo "Error: placementdata.csv not found!"
     exit 1
 fi

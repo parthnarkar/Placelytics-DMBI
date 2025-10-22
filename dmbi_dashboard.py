@@ -122,7 +122,7 @@ st.markdown("### Data Mining & Business Intelligence for Educational Success")
 # Load and process data
 @st.cache_data
 def load_and_process_data():
-    df = pd.read_csv('placementdata.csv')
+    df = pd.read_csv('data/placementdata.csv')
     
     # Data preprocessing
     df_processed = df.copy()
