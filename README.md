@@ -256,6 +256,10 @@ If you encounter errors:
 - ✅ Error-free execution verified
 - ✅ Network accessibility confirmed
 
+## UI & Layout Adjustments
+
+- Added a small layout tweak to the dashboard UI: a 48px spacer was inserted below the KPI indicators in `dmbi_dashboard.py` so the charts beneath the KPIs appear slightly lower and have clearer visual separation from the metrics. This improves readability across different screen sizes and themes.
+
 ## Conclusion
 
 This comprehensive DMBI project successfully demonstrates advanced data mining and business intelligence techniques applied to educational analytics. The system provides actionable insights through sophisticated clustering analysis, predictive modeling, and risk assessment.
