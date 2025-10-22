@@ -313,156 +313,164 @@ if analysis_type == "Executive Dashboard":
 
 elif analysis_type == "Predictive Analytics":
     st.header("Predictive Analytics & Machine Learning Insights")
-    
-    # Enhanced Model Training with Multiple Algorithms
-    from sklearn.model_selection import train_test_split, cross_val_score
-    from sklearn.linear_model import LogisticRegression
-    from sklearn.ensemble import GradientBoostingClassifier
-    from sklearn.metrics import accuracy_score, classification_report, roc_auc_score
-    
-    # Feature Importance Analysis
+    st.info("Models are trained only when you click 'Predict Placement Probability' to avoid repeated long loading during UI interaction.")
+
+    # Feature list for modeling
     numeric_features = ['CGPA', 'Internships', 'Projects', 'Workshops/Certifications', 
                        'AptitudeTestScore', 'SoftSkillsRating', 'SSC_Marks', 'HSC_Marks',
                        'Academic_Index', 'Experience_Score', 'Competency_Score']
-    
-    X = df_processed[numeric_features]
-    y = df_processed['PlacementStatus_encoded']
-    
-    # Train multiple models for ensemble prediction
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
-    
-    # Random Forest Model
-    rf_model = RandomForestClassifier(n_estimators=200, max_depth=10, random_state=42)
-    rf_model.fit(X_train, y_train)
-    
-    # Logistic Regression Model
-    lr_model = LogisticRegression(random_state=42, max_iter=1000)
-    lr_model.fit(X_train, y_train)
-    
-    # Gradient Boosting Model
-    gb_model = GradientBoostingClassifier(random_state=42, n_estimators=100)
-    gb_model.fit(X_train, y_train)
-    
-    # Model Performance Metrics
-    models = {
-        'Random Forest': rf_model,
-        'Logistic Regression': lr_model,
-        'Gradient Boosting': gb_model
-    }
-    
-    model_performance = {}
-    for name, model in models.items():
-        y_pred = model.predict(X_test)
-        y_pred_proba = model.predict_proba(X_test)[:, 1]
-        accuracy = accuracy_score(y_test, y_pred)
-        auc = roc_auc_score(y_test, y_pred_proba)
-        cv_scores = cross_val_score(model, X_train, y_train, cv=5)
-        
-        model_performance[name] = {
-            'accuracy': accuracy,
-            'auc': auc,
-            'cv_mean': cv_scores.mean(),
-            'cv_std': cv_scores.std()
+
+    # Helper: train models (run only on demand)
+    def train_models(df_proc, numeric_features):
+        from sklearn.model_selection import train_test_split, cross_val_score
+        from sklearn.linear_model import LogisticRegression
+        from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
+        from sklearn.metrics import accuracy_score, roc_auc_score
+
+        X = df_proc[numeric_features]
+        y = df_proc['PlacementStatus_encoded']
+
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
+
+        rf_model = RandomForestClassifier(n_estimators=200, max_depth=10, random_state=42)
+        rf_model.fit(X_train, y_train)
+
+        lr_model = LogisticRegression(random_state=42, max_iter=1000)
+        lr_model.fit(X_train, y_train)
+
+        gb_model = GradientBoostingClassifier(random_state=42, n_estimators=100)
+        gb_model.fit(X_train, y_train)
+
+        models = {
+            'Random Forest': rf_model,
+            'Logistic Regression': lr_model,
+            'Gradient Boosting': gb_model
         }
-    
-    # Display Model Performance
-    st.subheader("Model Performance Comparison")
-    perf_df = pd.DataFrame(model_performance).T
-    perf_df['accuracy'] = perf_df['accuracy'].apply(lambda x: f"{x:.3f}")
-    perf_df['auc'] = perf_df['auc'].apply(lambda x: f"{x:.3f}")
-    perf_df['cv_score'] = perf_df.apply(lambda row: f"{row['cv_mean']:.3f} ± {row['cv_std']:.3f}", axis=1)
-    
-    st.dataframe(perf_df[['accuracy', 'auc', 'cv_score']].rename(columns={
-        'accuracy': 'Test Accuracy',
-        'auc': 'AUC Score',
-        'cv_score': 'CV Score (Mean ± Std)'
-    }))
-    
-    # Feature Importance Analysis
-    feature_importance = pd.DataFrame({
-        'Feature': numeric_features,
-        'RF_Importance': rf_model.feature_importances_,
-        'LR_Coef': np.abs(lr_model.coef_[0]),
-        'GB_Importance': gb_model.feature_importances_
-    })
-    
-    # Normalize coefficients for comparison
-    feature_importance['LR_Coef_Norm'] = feature_importance['LR_Coef'] / feature_importance['LR_Coef'].max()
-    feature_importance['Avg_Importance'] = (feature_importance['RF_Importance'] + 
-                                           feature_importance['LR_Coef_Norm'] + 
-                                           feature_importance['GB_Importance']) / 3
-    feature_importance = feature_importance.sort_values('Avg_Importance', ascending=True)
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        fig = px.bar(feature_importance, x='Avg_Importance', y='Feature', orientation='h',
-                     title="Average Feature Importance (Ensemble)")
-        st.plotly_chart(fig, use_container_width=True)
-    
-    with col2:
-        # Correlation Heatmap
-        correlation_matrix = df_processed[numeric_features].corr()
-        
-        fig = px.imshow(correlation_matrix, 
-                        title="Feature Correlation Heatmap",
-                        color_continuous_scale="RdBu")
-        st.plotly_chart(fig, use_container_width=True)
-    
-    # Enhanced Prediction Interface
+
+        model_performance = {}
+        for name, model in models.items():
+            y_pred = model.predict(X_test)
+            try:
+                y_pred_proba = model.predict_proba(X_test)[:, 1]
+            except Exception:
+                y_pred_proba = np.zeros(len(y_test))
+            accuracy = accuracy_score(y_test, y_pred)
+            try:
+                auc = roc_auc_score(y_test, y_pred_proba)
+            except Exception:
+                auc = 0.0
+            cv_scores = cross_val_score(model, X_train, y_train, cv=5)
+
+            model_performance[name] = {
+                'accuracy': accuracy,
+                'auc': auc,
+                'cv_mean': cv_scores.mean(),
+                'cv_std': cv_scores.std()
+            }
+
+        perf_df = pd.DataFrame(model_performance).T
+
+        feature_importance = pd.DataFrame({
+            'Feature': numeric_features,
+            'RF_Importance': rf_model.feature_importances_,
+            'LR_Coef': np.abs(lr_model.coef_[0]),
+            'GB_Importance': gb_model.feature_importances_
+        })
+        feature_importance['LR_Coef_Norm'] = feature_importance['LR_Coef'] / feature_importance['LR_Coef'].max()
+        feature_importance['Avg_Importance'] = (feature_importance['RF_Importance'] + 
+                                               feature_importance['LR_Coef_Norm'] + 
+                                               feature_importance['GB_Importance']) / 3
+
+        return models, perf_df, feature_importance
+
+    # Enhanced Prediction Interface (inputs only)
     st.subheader("Individual Student Prediction")
-    
+
     col1, col2, col3 = st.columns(3)
-    
+
     with col1:
         st.markdown("**Academic Information**")
         cgpa = st.slider("CGPA", 6.0, 10.0, 7.5, 0.1)
         ssc_marks = st.slider("SSC Marks (%)", 50, 100, 75)
         hsc_marks = st.slider("HSC Marks (%)", 50, 100, 75)
         aptitude = st.slider("Aptitude Test Score", 50, 100, 75)
-    
+
     with col2:
         st.markdown("**Experience & Skills**")
         internships = st.selectbox("Number of Internships", [0, 1, 2, 3, 4])
         projects = st.selectbox("Number of Projects", [0, 1, 2, 3, 4, 5])
         certifications = st.selectbox("Workshops/Certifications", [0, 1, 2, 3, 4, 5])
         soft_skills = st.slider("Soft Skills Rating", 1.0, 5.0, 4.0, 0.1)
-    
+
     with col3:
         st.markdown("**Additional Factors**")
         extracurricular = st.selectbox("Extracurricular Activities", ["No", "Yes"])
         placement_training = st.selectbox("Placement Training", ["No", "Yes"])
-        
+
         # Additional info display
         st.markdown("**Quick Stats**")
         st.write(f"Dataset Average CGPA: {df['CGPA'].mean():.2f}")
         st.write(f"Dataset Placement Rate: {(df['PlacementStatus'] == 'Placed').mean():.1%}")
-    
+
+    # Only train models and run predictions when user explicitly requests it
     if st.button("Predict Placement Probability", type="primary"):
-        # Calculate derived features using the same logic as training
-        academic_index = cgpa * 0.4 + ssc_marks/100 * 0.3 + hsc_marks/100 * 0.3
-        experience_score = internships * 2 + projects + certifications * 1.5
-        competency_score = aptitude/100 * 0.6 + soft_skills/5 * 0.4
-        
-        # Prepare input for prediction
-        new_student = np.array([[cgpa, internships, projects, certifications, aptitude,
-                                soft_skills, ssc_marks, hsc_marks, academic_index,
-                                experience_score, competency_score]])
-        
-        # Get predictions from all models
-        rf_prob = rf_model.predict_proba(new_student)[0][1]
-        lr_prob = lr_model.predict_proba(new_student)[0][1]
-        gb_prob = gb_model.predict_proba(new_student)[0][1]
-        
-        # Ensemble prediction (weighted average based on model performance)
-        ensemble_prob = (rf_prob * 0.4 + lr_prob * 0.35 + gb_prob * 0.25)
-        
-        # Display Results
+        with st.spinner("Training models and computing predictions (this may take a moment)..."):
+            if not st.session_state.get('models_trained', False):
+                models_dict, perf_df, feature_importance = train_models(df_processed, numeric_features)
+                st.session_state['models_dict'] = models_dict
+                st.session_state['perf_df'] = perf_df
+                st.session_state['feature_importance'] = feature_importance
+                st.session_state['models_trained'] = True
+            else:
+                models_dict = st.session_state['models_dict']
+                perf_df = st.session_state['perf_df']
+                feature_importance = st.session_state['feature_importance']
+
+            # Prepare derived features and input
+            academic_index = cgpa * 0.4 + ssc_marks/100 * 0.3 + hsc_marks/100 * 0.3
+            experience_score = internships * 2 + projects + certifications * 1.5
+            competency_score = aptitude/100 * 0.6 + soft_skills/5 * 0.4
+
+            new_student = np.array([[cgpa, internships, projects, certifications, aptitude,
+                                    soft_skills, ssc_marks, hsc_marks, academic_index,
+                                    experience_score, competency_score]])
+
+            rf_model = models_dict['Random Forest']
+            lr_model = models_dict['Logistic Regression']
+            gb_model = models_dict['Gradient Boosting']
+
+            rf_prob = rf_model.predict_proba(new_student)[0][1]
+            lr_prob = lr_model.predict_proba(new_student)[0][1]
+            gb_prob = gb_model.predict_proba(new_student)[0][1]
+
+            ensemble_prob = (rf_prob * 0.4 + lr_prob * 0.35 + gb_prob * 0.25)
+
+        # After training & prediction, show performance and feature importance
         st.markdown("---")
+        st.subheader("Model Performance Comparison")
+        perf_df_display = perf_df.copy()
+        perf_df_display['accuracy'] = perf_df_display['accuracy'].apply(lambda x: f"{x:.3f}")
+        perf_df_display['auc'] = perf_df_display['auc'].apply(lambda x: f"{x:.3f}")
+        perf_df_display['cv_score'] = perf_df_display.apply(lambda row: f"{row['cv_mean']:.3f} ± {row['cv_std']:.3f}", axis=1)
+        st.dataframe(perf_df_display[['accuracy', 'auc', 'cv_score']].rename(columns={
+            'accuracy': 'Test Accuracy', 'auc': 'AUC Score', 'cv_score': 'CV Score (Mean ± Std)'
+        }))
+
+        # Feature importance visuals
+        feature_importance = st.session_state['feature_importance']
+        feature_importance = feature_importance.sort_values('Avg_Importance', ascending=True)
+        colA, colB = st.columns(2)
+        with colA:
+            fig = px.bar(feature_importance, x='Avg_Importance', y='Feature', orientation='h', title="Average Feature Importance (Ensemble)")
+            st.plotly_chart(fig, use_container_width=True)
+        with colB:
+            correlation_matrix = df_processed[numeric_features].corr()
+            fig = px.imshow(correlation_matrix, title="Feature Correlation Heatmap", color_continuous_scale="RdBu")
+            st.plotly_chart(fig, use_container_width=True)
+
+        # Display prediction results as before
         st.subheader("Prediction Results")
-        
         col1, col2, col3, col4 = st.columns(4)
-        
         with col1:
             if ensemble_prob > 0.75:
                 st.success("VERY HIGH PROBABILITY")
@@ -484,22 +492,19 @@ elif analysis_type == "Predictive Analytics":
                 st.error("VERY LOW PROBABILITY")
                 confidence = "Very Low"
                 color = "red"
-            
             st.metric("Final Prediction", f"{ensemble_prob:.1%}")
             st.metric("Confidence Level", confidence)
-        
+
         with col2:
             st.metric("Academic Index", f"{academic_index:.2f}")
             st.metric("Experience Score", f"{experience_score:.1f}")
             st.metric("Competency Score", f"{competency_score:.2f}")
-        
+
         with col3:
             st.write("**Individual Model Predictions:**")
             st.write(f"Random Forest: {rf_prob:.1%}")
             st.write(f"Logistic Regression: {lr_prob:.1%}")
             st.write(f"Gradient Boosting: {gb_prob:.1%}")
-            
-            # Performance tier prediction
             if academic_index >= 3.8 and experience_score >= 5:
                 tier = "High Performer"
             elif academic_index >= 3.5 and experience_score >= 3:
@@ -508,110 +513,22 @@ elif analysis_type == "Predictive Analytics":
                 tier = "Developing Performer"
             else:
                 tier = "Needs Improvement"
-            
             st.write(f"**Performance Tier:** {tier}")
-        
+
         with col4:
-            # Comparison with similar students
             similar_students = df_processed[
                 (abs(df_processed['CGPA'] - cgpa) <= 0.3) &
                 (abs(df_processed['Internships'] - internships) <= 1) &
                 (abs(df_processed['AptitudeTestScore'] - aptitude) <= 15)
             ]
-        
-            if len(similar_students) > 10:  # Only show if we have meaningful sample size
+            if len(similar_students) > 10:
                 similar_placement_rate = (similar_students['PlacementStatus'] == 'Placed').mean()
                 st.metric("Similar Students", f"{len(similar_students)} found")
                 st.metric("Their Placement Rate", f"{similar_placement_rate:.1%}")
-                
-                # Show prediction accuracy
-                prediction_error = abs(ensemble_prob - similar_placement_rate)
-                if prediction_error <= 0.15:
-                    st.success("High Prediction Accuracy")
-                elif prediction_error <= 0.25:
-                    st.warning("Moderate Prediction Accuracy")
-                else:
-                    st.error("Review Prediction")
             else:
                 st.write("**Unique Profile**")
                 st.write("Limited similar students in dataset")
-                st.write("Prediction based on model inference")        # Detailed Analysis and Recommendations
-        st.subheader("Detailed Analysis & Recommendations")
-        
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.markdown("**Strengths:**")
-            strengths = []
-            if cgpa >= 8.0:
-                strengths.append("Excellent Academic Performance (CGPA ≥ 8.0)")
-            elif cgpa >= 7.5:
-                strengths.append("Good Academic Performance")
-            
-            if internships >= 2:
-                strengths.append("Strong Internship Experience")
-            elif internships >= 1:
-                strengths.append("Some Internship Experience")
-            
-            if aptitude >= 85:
-                strengths.append("Excellent Aptitude Score")
-            elif aptitude >= 75:
-                strengths.append("Good Aptitude Score")
-            
-            if soft_skills >= 4.5:
-                strengths.append("Strong Soft Skills")
-            
-            if projects >= 3:
-                strengths.append("Multiple Projects Completed")
-            
-            if placement_training == "Yes":
-                strengths.append("Completed Placement Training")
-            
-            for strength in strengths:
-                st.write(f"• {strength}")
-        
-        with col2:
-            st.markdown("**Improvement Areas:**")
-            improvements = []
-            if cgpa < 7.5:
-                improvements.append("Focus on improving CGPA")
-            if internships == 0:
-                improvements.append("Gain internship experience")
-            if aptitude < 75:
-                improvements.append("Improve aptitude test scores")
-            if soft_skills < 4.0:
-                improvements.append("Develop soft skills")
-            if projects < 2:
-                improvements.append("Work on more projects")
-            if placement_training == "No":
-                improvements.append("Consider placement training")
-            if extracurricular == "No":
-                improvements.append("Participate in extracurricular activities")
-            
-            for improvement in improvements:
-                st.write(f"• {improvement}")
-        
-        # Probability Gauge Chart
-        fig = go.Figure(go.Indicator(
-            mode = "gauge+number+delta",
-            value = ensemble_prob * 100,
-            domain = {'x': [0, 1], 'y': [0, 1]},
-            title = {'text': "Placement Probability"},
-            delta = {'reference': 42.0},  # Overall dataset placement rate
-            gauge = {
-                'axis': {'range': [None, 100]},
-                'bar': {'color': color},
-                'steps': [
-                    {'range': [0, 30], 'color': "lightgray"},
-                    {'range': [30, 60], 'color': "yellow"},
-                    {'range': [60, 100], 'color': "lightgreen"}],
-                'threshold': {
-                    'line': {'color': "red", 'width': 4},
-                    'thickness': 0.75,
-                    'value': 90}}))
-        
-        fig.update_layout(height=300)
-        st.plotly_chart(fig, use_container_width=True)
+                st.write("Prediction based on model inference")
 
 elif analysis_type == "Student Segmentation":
     st.header("Student Segmentation Analysis (Clustering)")
