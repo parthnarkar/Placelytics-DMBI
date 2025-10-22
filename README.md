@@ -1,5 +1,7 @@
 # Placelytics — College Placement Data Analysis & Prediction
 
+![Placelytics Dashboard](assets/Placelytics.png)
+
 ## Project Overview
 **Domain:** Education Analytics & Data Mining  
 **Objective:** Advanced Data Mining and Business Intelligence analysis of student placement data with predictive modeling  
@@ -64,6 +66,56 @@
 6. Model training with cross-validation
 7. Ensemble prediction system
 
+## Screenshots & Visualizations
+
+This section showcases all the key visualizations and dashboard interfaces available in Placelytics:
+
+### Executive Dashboard
+![Executive Dashboard Graphs](assets/Executive%20Dashboard%20Graphs.png)
+*Complete overview of the main dashboard showing KPI metrics, placement rate analysis by performance tiers, CGPA distribution pie chart, and stacked count visualizations for comprehensive placement insights.*
+
+### Predictive Analytics Interface
+![Predictive Analytics & Machine Learning Insights](assets/Predictive%20Analytics%20%26%20Machine%20Learning%20Insights.png)
+*Main predictive analytics dashboard displaying model performance comparison, feature importance analysis, and correlation heatmaps for comprehensive ML insights.*
+
+![Predictive Analytics Prediction Output](assets/Predictive%20Analytics%20%26%20Machine%20Learning%20Insights%20Predicition%20Output.png)
+*Detailed prediction results showing individual student placement probability with confidence levels, academic indices, performance tiers, and personalized recommendations.*
+
+### Feature Importance & Correlation Analysis
+![Average Feature Importance (Ensemble)](assets/Average%20Feature%20Importance%20(Ensemble).png)
+*Horizontal bar chart displaying the relative importance of different features in the ensemble model, highlighting which academic and experience factors most strongly predict placement success.*
+
+![Feature Correlation Heatmap](assets/Feature%20Correlation%20Heatmap.png)
+*Interactive correlation matrix showing relationships between all numeric features, helping identify multicollinearity and feature interactions in the dataset.*
+
+### Student Segmentation & Clustering
+![3D Student Segmentation](assets/3D%20Student%20Segmentation.png)
+*Three-dimensional scatter plot visualization of K-means clustering results, showing how students are segmented based on Academic Index, Experience Score, and Competency Score.*
+
+### CGPA Analysis Visualizations
+![Placement Distribution by CGPA](assets/Placement%20Distribution%20by%20CGPA.png)
+*Pie chart showing the distribution of placement rates across different CGPA categories, providing insights into academic performance impact on placement success.*
+
+![CGPA Distribution by Placement Status](assets/CGPA%20Distribution%20by%20Placement%20Status.png)
+*Overlapping histogram comparing CGPA distributions between placed and not-placed students, revealing the academic performance patterns that influence placement outcomes.*
+
+![CGPA Box Plot by Placement Status](assets/CGPA%20Box%20Plot%20by%20Placement%20Status.png)
+*Box plot analysis showing CGPA quartiles, medians, and outliers for both placed and not-placed student groups, highlighting the statistical differences in academic performance.*
+
+### Trend Analysis & Performance Metrics
+![Placement Rate Trend by CGPA](assets/Placement%20Rate%20Trend%20by%20CGPA.png)
+*Line chart demonstrating how placement rates vary across different CGPA ranges, showing the clear correlation between academic performance and employment success.*
+
+![Placement Rate by Number of Internships](assets/Placement%20Rate%20by%20Number%20of%20Internships.png)
+*Bar chart illustrating the strong positive correlation between internship experience and placement rates, emphasizing the importance of practical work experience.*
+
+### Risk Analytics & Assessment
+![Risk Score Distribution](assets/Risk%20Score%20Distribution.png)
+*Distribution chart showing the frequency of different risk scores across the student population, helping identify the proportion of students in various risk categories.*
+
+![Placement Rate vs Risk Score](assets/Placement%20Rate%20vs%20Risk%20Source.png)
+*Line graph demonstrating the inverse relationship between risk scores and placement rates, validating the effectiveness of the risk assessment model in identifying at-risk students.*
+
 ## Project Structure & Files
 
 ### Core Analysis Files
@@ -84,16 +136,54 @@
 ### Configuration & Setup
 - **`requirements.txt`** - Python package dependencies
 - **`start_dashboard.sh`** - Easy startup script for the dashboard
-- **`setup.sh`** - Environment setup script
 - **`.venv/`** - Python virtual environment with all dependencies
 - **`.gitignore`** - Git ignore patterns for clean repository
 
 ## How to Run the Project
 
 ### Prerequisites
-1. Python 3.10+ installed
-2. Virtual environment (.venv) set up with all dependencies
-3. All required packages installed (see requirements.txt)
+1. **Python 3.10+ installed** on your system
+2. **Git installed** for cloning the repository
+3. **Terminal/Command Prompt** access
+
+### Quick Installation & Setup
+
+#### Step 1: Clone the Repository
+```bash
+git clone https://github.com/parthnarkar/DMBI-MiniProject.git
+cd DMBI-MiniProject
+```
+
+#### Step 2: Create Virtual Environment
+```bash
+# Create virtual environment
+python -m venv .venv
+
+# Activate virtual environment
+# On Linux/macOS:
+source .venv/bin/activate
+
+# On Windows:
+.venv\Scripts\activate
+```
+
+#### Step 3: Install Dependencies
+```bash
+# Install required packages
+pip install -r requirements.txt
+```
+
+#### Step 4: Run the Application
+```bash
+# Make startup script executable (Linux/macOS only)
+chmod +x start_dashboard.sh
+
+# Run the dashboard (easiest method)
+./start_dashboard.sh
+
+# Alternative: Run directly with Python
+streamlit run dmbi_dashboard.py --server.port 8502
+```
 
 ### Quick Start (Recommended)
 ```bash
@@ -146,7 +236,7 @@ python quick_validation.py
 - **Trend Analysis:** Business intelligence insights
 
 ### Access URLs
-- **Main DMBI Dashboard:** http://localhost:8502
+- **Main Placelytics Dashboard:** http://localhost:8502
 - **Network Access:** http://192.168.29.101:8502 (accessible from local network)
 - **Basic Dashboard:** http://localhost:8501 (if running placement_dashboard.py)
 
@@ -238,16 +328,6 @@ If you encounter errors:
 4. **Advanced Visualization:** Interactive 3D cluster analysis
 5. **Automated Reporting:** Scheduled business intelligence reports
 
-## Recent Updates & Fixes
-
-### Version 2.0 - Latest Improvements
-- **Fixed Data Path Issues:** Corrected file path references for seamless execution
-- **Enhanced Setup Process:** Added requirements.txt and startup script for easy deployment
-- **Improved Error Handling:** Better validation and error messages
-- **Streamlined Installation:** Automated dependency management
-- **Network Accessibility:** Dashboard accessible from local network
-- **Professional Documentation:** Comprehensive README with troubleshooting guide
-
 ### System Requirements Met
 - ✅ All dependencies properly configured
 - ✅ Data file paths corrected
@@ -256,10 +336,6 @@ If you encounter errors:
 - ✅ Error-free execution verified
 - ✅ Network accessibility confirmed
 
-## UI & Layout Adjustments
-
-- Added a small layout tweak to the dashboard UI: a 48px spacer was inserted below the KPI indicators in `dmbi_dashboard.py` so the charts beneath the KPIs appear slightly lower and have clearer visual separation from the metrics. This improves readability across different screen sizes and themes.
-
 ## Conclusion
 
 This comprehensive DMBI project successfully demonstrates advanced data mining and business intelligence techniques applied to educational analytics. The system provides actionable insights through sophisticated clustering analysis, predictive modeling, and risk assessment.
@@ -267,9 +343,7 @@ This comprehensive DMBI project successfully demonstrates advanced data mining a
 The combination of technical excellence (80.15% accuracy), business intelligence capabilities, and interactive visualization makes this a complete solution for educational institutions seeking to enhance their placement programs through data-driven decision making.
 
 **Project Status: COMPLETED SUCCESSFULLY & FULLY OPERATIONAL**  
-**Deployment Ready:** Placelytics: advanced analytics system with proven accuracy and business value  
-**Last Updated:** October 18, 2025 - All issues resolved, system running smoothly
+**Last Updated:** October 22, 2025 - All issues resolved, system running smoothly
 
 ---
-*Built with Data Science Excellence by Parth Narkar*  
-*Placelytics — Advanced Analytics & Business Intelligence*
+*Built by Parth Narkar [(@parth.builds)](https://www.instagram.com/parth.builds/)*
