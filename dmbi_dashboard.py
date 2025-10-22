@@ -15,7 +15,7 @@ warnings.filterwarnings('ignore')
 
 # Page configuration
 st.set_page_config(
-    page_title="DMBI College Placement Analytics", 
+    page_title="Placelytics College Placement Analytics", 
     page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -116,7 +116,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Title and description
-st.title("Advanced DMBI College Placement Analytics Dashboard")
+st.title("Placelytics — Advanced College Placement Analytics Dashboard")
 st.markdown("### Data Mining & Business Intelligence for Educational Success")
 
 # Load and process data
@@ -169,7 +169,7 @@ def load_and_process_data():
 df, df_processed = load_and_process_data()
 
 # Sidebar for navigation
-st.sidebar.title("DMBI Analytics Menu")
+st.sidebar.title("Placelytics Analytics Menu")
 analysis_type = st.sidebar.selectbox(
     "Choose Analysis Type:",
     ["Executive Dashboard", "Predictive Analytics", "Student Segmentation", 
@@ -200,13 +200,14 @@ if analysis_type == "Executive Dashboard":
     # KPIs Row 2
     col1, col2, col3, col4 = st.columns(4)
     
-    high_performers = len(df_processed[df_processed['Performance_Tier'] == 'High_Performer'])
+    # Replace previous 'High Performers' metric with a cluster-based high achiever count
+    high_achiever_cluster_count = int(df_processed[df_processed['Student_Cluster'] == 3].shape[0])
     avg_internships = df['Internships'].mean()
     avg_aptitude = df['AptitudeTestScore'].mean()
     with_training = len(df[df['PlacementTraining'] == 'Yes'])
     
     with col1:
-        st.metric("High Performers", f"{high_performers}")
+        st.metric("High Achiever Cluster (Count)", f"{high_achiever_cluster_count}")
     with col2:
         st.metric("Avg Internships", f"{avg_internships:.1f}")
     with col3:
@@ -790,7 +791,7 @@ footer_texts = {
 
 default_footer = """
 <div>
-    <h4 style='margin:0 0 0.5rem 0;'>DMBI Concepts Implemented</h4>
+    <h4 style='margin:0 0 0.5rem 0;'>Placelytics Concepts Implemented</h4>
     <ul>
         <li>Data Mining: Feature Engineering, Clustering, Classification</li>
         <li>Business Intelligence: KPIs, Segmentation, Risk Analytics, Trend Analysis</li>

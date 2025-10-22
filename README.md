@@ -1,4 +1,4 @@
-# College Placement Data Analysis & Prediction - DMBI Mini Project
+# Placelytics — College Placement Data Analysis & Prediction
 
 ## Project Overview
 **Domain:** Education Analytics & Data Mining  
@@ -267,9 +267,9 @@ This comprehensive DMBI project successfully demonstrates advanced data mining a
 The combination of technical excellence (80.15% accuracy), business intelligence capabilities, and interactive visualization makes this a complete solution for educational institutions seeking to enhance their placement programs through data-driven decision making.
 
 **Project Status: COMPLETED SUCCESSFULLY & FULLY OPERATIONAL**  
-**Deployment Ready:** Advanced analytics system with proven accuracy and business value  
+**Deployment Ready:** Placelytics: advanced analytics system with proven accuracy and business value  
 **Last Updated:** October 18, 2025 - All issues resolved, system running smoothly
 
 ---
 *Built with Data Science Excellence by Parth Narkar*  
-*DMBI Mini Project - Advanced Analytics & Business Intelligence*
+*Placelytics — Advanced Analytics & Business Intelligence*
