@@ -9,6 +9,8 @@
 **Overall Placement Rate:** 42.0%  
 **Technology Stack:** Python, Scikit-learn, Streamlit, Pandas, NumPy
 
+**🎥 Project Demo Video: [Watch Placelytics in Action](https://www.youtube.com/watch?v=x7EAH00IGRc)**
+
 **📄 Complete project overview and detailed analysis available in [Placelytics - Report.pdf](https://docs.google.com/document/d/1S7YISCPXFQE48_2qo07bjtM4rMlxr2ycTGztADPoy3A/edit?tab=t.0)**
 
 ## Key Results & Performance
@@ -417,6 +419,8 @@ This comprehensive DMBI project successfully demonstrates advanced data mining a
 The combination of technical excellence (80.15% accuracy), business intelligence capabilities, and interactive visualization makes this a complete solution for educational institutions seeking to enhance their placement programs through data-driven decision making.
 
 **📄 For complete project documentation, detailed methodology, results analysis, and technical specifications, please refer to [Placelytics - Report.pdf](https://docs.google.com/document/d/1S7YISCPXFQE48_2qo07bjtM4rMlxr2ycTGztADPoy3A/edit?tab=t.0)**
+
+**🎥 Watch the complete project demo: [Placelytics in Action - YouTube Video](https://www.youtube.com/watch?v=x7EAH00IGRc)**
 
 **Project Status: COMPLETED SUCCESSFULLY & FULLY OPERATIONAL**  
 **Last Updated:** October 23, 2025 - All issues resolved, system running smoothly
