@@ -9,7 +9,7 @@
 **Overall Placement Rate:** 42.0%  
 **Technology Stack:** Python, Scikit-learn, Streamlit, Pandas, NumPy
 
-**📄 Complete project overview and detailed analysis available in `assets/Placelytics - Report.pdf`**
+**📄 Complete project overview and detailed analysis available in [Placelytics - Report.pdf](assets/Placelytics%20-%20Report.pdf)**
 
 ## Key Results & Performance
 
@@ -35,7 +35,7 @@
 - **Training Effectiveness:** Placement training increases success by 1.4x
 - **Risk Identification:** 4,657 students (46.6%) identified as at-risk
 
-**📄 Complete business intelligence analysis and insights available in `Placelytics - Report.pdf`**
+**📄 Complete business intelligence analysis and insights available in [Placelytics - Report.pdf](assets/Placelytics%20-%20Report.pdf)**
 
 ### Student Segmentation (K-Means Clustering)
 - **Cluster 0 - Moderate Performers:** 2,767 students, 49.2% placement rate
@@ -61,7 +61,7 @@
 6. **Correlation Mining:** Feature relationship analysis
 7. **Performance Tiers:** Student classification system
 
-**📄 Detailed technical methodology available in `Placelytics - Report.pdf`**
+**📄 Detailed technical methodology available in [Placelytics - Report.pdf](assets/Placelytics%20-%20Report.pdf)**
 
 ### Data Processing Pipeline
 1. Data Quality Assessment (zero missing values)
@@ -129,7 +129,7 @@ This section showcases all the key visualizations and dashboard interfaces avail
 - **`advanced_dmbi_analysis.py`** - Comprehensive DMBI implementation with 8 analysis phases
 - **`College_Placement_Analysis.ipynb`** - Jupyter notebook with detailed analysis
 - **`placementdata.csv`** - Dataset with 10,000 student records
-- **`Placelytics - Report.pdf`** - Comprehensive project report with detailed analysis and findings
+- **[Placelytics - Report.pdf](assets/Placelytics%20-%20Report.pdf)** - Comprehensive project report with detailed analysis and findings
 
 ### Dashboard Applications
 - **`dmbi_dashboard.py`** - Advanced Business Intelligence dashboard (Main Application)
@@ -148,7 +148,7 @@ This section showcases all the key visualizations and dashboard interfaces avail
 
 ### Documentation
 - **`README.md`** - This comprehensive project documentation
-- **`Placelytics - Report.pdf`** - Detailed technical report with complete analysis, methodology, and findings
+- **[Placelytics - Report.pdf](assets/Placelytics%20-%20Report.pdf)** - Detailed technical report with complete analysis, methodology, and findings
 
 ## How to Run the Project
 
@@ -370,7 +370,7 @@ python quick_validation.py
 - Clustering validation with silhouette analysis
 - Comprehensive error analysis and model diagnostics
 
-**📄 For detailed validation methodology and results, refer to `Placelytics - Report.pdf`**
+**📄 For detailed validation methodology and results, refer to [Placelytics - Report.pdf](assets/Placelytics%20-%20Report.pdf)**
 
 ## Impact & Business Value
 
@@ -416,7 +416,7 @@ This comprehensive DMBI project successfully demonstrates advanced data mining a
 
 The combination of technical excellence (80.15% accuracy), business intelligence capabilities, and interactive visualization makes this a complete solution for educational institutions seeking to enhance their placement programs through data-driven decision making.
 
-**📄 For complete project documentation, detailed methodology, results analysis, and technical specifications, please refer to `Placelytics - Report.pdf`**
+**📄 For complete project documentation, detailed methodology, results analysis, and technical specifications, please refer to [Placelytics - Report.pdf](assets/Placelytics%20-%20Report.pdf)**
 
 **Project Status: COMPLETED SUCCESSFULLY & FULLY OPERATIONAL**  
 **Last Updated:** October 23, 2025 - All issues resolved, system running smoothly
