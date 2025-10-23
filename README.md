@@ -9,6 +9,8 @@
 **Overall Placement Rate:** 42.0%  
 **Technology Stack:** Python, Scikit-learn, Streamlit, Pandas, NumPy
 
+**📄 Complete project overview and detailed analysis available in `assets/Placelytics - Report.pdf`**
+
 ## Key Results & Performance
 
 ### Best Performing Models
@@ -33,6 +35,8 @@
 - **Training Effectiveness:** Placement training increases success by 1.4x
 - **Risk Identification:** 4,657 students (46.6%) identified as at-risk
 
+**📄 Complete business intelligence analysis and insights available in `Placelytics - Report.pdf`**
+
 ### Student Segmentation (K-Means Clustering)
 - **Cluster 0 - Moderate Performers:** 2,767 students, 49.2% placement rate
 - **Cluster 1 - Developing Students:** 1,794 students, 5.7% placement rate
@@ -56,6 +60,8 @@
 5. **Risk Analytics:** Multi-factor risk scoring
 6. **Correlation Mining:** Feature relationship analysis
 7. **Performance Tiers:** Student classification system
+
+**📄 Detailed technical methodology available in `Placelytics - Report.pdf`**
 
 ### Data Processing Pipeline
 1. Data Quality Assessment (zero missing values)
@@ -123,6 +129,7 @@ This section showcases all the key visualizations and dashboard interfaces avail
 - **`advanced_dmbi_analysis.py`** - Comprehensive DMBI implementation with 8 analysis phases
 - **`College_Placement_Analysis.ipynb`** - Jupyter notebook with detailed analysis
 - **`placementdata.csv`** - Dataset with 10,000 student records
+- **`Placelytics - Report.pdf`** - Comprehensive project report with detailed analysis and findings
 
 ### Dashboard Applications
 - **`dmbi_dashboard.py`** - Advanced Business Intelligence dashboard (Main Application)
@@ -139,6 +146,10 @@ This section showcases all the key visualizations and dashboard interfaces avail
 - **`.venv/`** - Python virtual environment with all dependencies
 - **`.gitignore`** - Git ignore patterns for clean repository
 
+### Documentation
+- **`README.md`** - This comprehensive project documentation
+- **`Placelytics - Report.pdf`** - Detailed technical report with complete analysis, methodology, and findings
+
 ## How to Run the Project
 
 ### Prerequisites
@@ -150,8 +161,8 @@ This section showcases all the key visualizations and dashboard interfaces avail
 
 #### Step 1: Clone the Repository
 ```bash
-git clone https://github.com/parthnarkar/DMBI-MiniProject.git
-cd DMBI-MiniProject
+git clone https://github.com/parthnarkar/Placelytics-DMBI.git
+cd Placelytics-DMBI
 ```
 
 #### Step 2: Create Virtual Environment
@@ -174,8 +185,20 @@ pip install -r requirements.txt
 ```
 
 #### Step 4: Run the Application
+
+**For Windows:**
+```cmd
+# Run the dashboard using the full path to streamlit
+.venv\Scripts\streamlit.exe run dmbi_dashboard.py --server.port 8502
+
+# Alternative: Activate virtual environment first, then run
+.venv\Scripts\activate
+streamlit run dmbi_dashboard.py --server.port 8502
+```
+
+**For Linux/macOS:**
 ```bash
-# Make startup script executable (Linux/macOS only)
+# Make startup script executable
 chmod +x start_dashboard.sh
 
 # Run the dashboard (easiest method)
@@ -186,9 +209,24 @@ streamlit run dmbi_dashboard.py --server.port 8502
 ```
 
 ### Quick Start (Recommended)
+
+**For Windows:**
+```cmd
+# Navigate to project directory
+cd D:\Projects\Placelytics-DMBI
+
+# Option 1: Direct run with full path
+.venv\Scripts\streamlit.exe run dmbi_dashboard.py --server.port 8502
+
+# Option 2: Activate environment first
+.venv\Scripts\activate
+streamlit run dmbi_dashboard.py --server.port 8502
+```
+
+**For Linux/macOS:**
 ```bash
 # Navigate to project directory
-cd /home/parthnarkar/Desktop/DMBI-MiniProject
+cd /path/to/Placelytics-DMBI
 
 # Run the startup script (easiest method)
 ./start_dashboard.sh
@@ -197,7 +235,7 @@ cd /home/parthnarkar/Desktop/DMBI-MiniProject
 ### Manual Setup & Run
 ```bash
 # Navigate to project directory
-cd /home/parthnarkar/Desktop/DMBI-MiniProject
+cd /path/to/Placelytics-DMBI
 
 # Activate virtual environment
 source .venv/bin/activate
@@ -210,9 +248,33 @@ streamlit run dmbi_dashboard.py --server.port 8502
 ```
 
 ### Alternative Run Methods
+
+**For Windows:**
+```cmd
+# Direct command using full path to streamlit
+D:\Projects\Placelytics-DMBI\.venv\Scripts\streamlit.exe run dmbi_dashboard.py --server.port 8502
+
+# With activated virtual environment
+.venv\Scripts\activate
+streamlit run dmbi_dashboard.py --server.port 8502
+
+# Basic analysis script
+python placement_analysis.py
+
+# Advanced DMBI analysis
+python advanced_dmbi_analysis.py
+
+# Basic dashboard (different port)
+.venv\Scripts\streamlit.exe run placement_dashboard.py --server.port 8501
+
+# Validation testing
+python quick_validation.py
+```
+
+**For Linux/macOS:**
 ```bash
 # Direct command (if virtual environment is active)
-/home/parthnarkar/Desktop/DMBI-MiniProject/.venv/bin/python -m streamlit run dmbi_dashboard.py --server.port 8502
+/path/to/Placelytics-DMBI/.venv/bin/python -m streamlit run dmbi_dashboard.py --server.port 8502
 
 # Basic analysis script
 python placement_analysis.py
@@ -241,12 +303,22 @@ python quick_validation.py
 - **Basic Dashboard:** http://localhost:8501 (if running placement_dashboard.py)
 
 ### Troubleshooting
-If you encounter errors:
-1. Ensure you're in the correct directory: `/home/parthnarkar/Desktop/DMBI-MiniProject`
-2. Check that `placementdata.csv` exists in the project root
-3. Verify virtual environment is activated: `source .venv/bin/activate`
-4. Install dependencies: `pip install -r requirements.txt`
-5. Use the startup script for automated setup: `./start_dashboard.sh`
+
+**Common Issues and Solutions:**
+
+**Windows-specific:**
+- **'streamlit' is not recognized:** Use the full path `.venv\Scripts\streamlit.exe` or activate the virtual environment first with `.venv\Scripts\activate`
+- **Path issues:** Ensure you're using backslashes `\` for Windows paths
+- **Permission errors:** Run Command Prompt as Administrator if needed
+
+**General Issues:**
+1. Ensure you're in the correct project directory
+2. Check that `placementdata.csv` exists in the project root (should be in `data/` folder)
+3. Verify virtual environment is activated:
+   - Windows: `.venv\Scripts\activate`
+   - Linux/macOS: `source .venv/bin/activate`
+4. Install/reinstall dependencies: `pip install -r requirements.txt`
+5. For Linux/macOS: Use the startup script for automated setup: `./start_dashboard.sh`
 
 ## Business Recommendations
 
@@ -298,6 +370,8 @@ If you encounter errors:
 - Clustering validation with silhouette analysis
 - Comprehensive error analysis and model diagnostics
 
+**📄 For detailed validation methodology and results, refer to `Placelytics - Report.pdf`**
+
 ## Impact & Business Value
 
 ### Quantified Benefits
@@ -342,8 +416,10 @@ This comprehensive DMBI project successfully demonstrates advanced data mining a
 
 The combination of technical excellence (80.15% accuracy), business intelligence capabilities, and interactive visualization makes this a complete solution for educational institutions seeking to enhance their placement programs through data-driven decision making.
 
+**📄 For complete project documentation, detailed methodology, results analysis, and technical specifications, please refer to `Placelytics - Report.pdf`**
+
 **Project Status: COMPLETED SUCCESSFULLY & FULLY OPERATIONAL**  
-**Last Updated:** October 22, 2025 - All issues resolved, system running smoothly
+**Last Updated:** October 23, 2025 - All issues resolved, system running smoothly
 
 ---
 *Built by Parth Narkar [(@parth.builds)](https://www.instagram.com/parth.builds/)*
