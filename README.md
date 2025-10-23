@@ -11,7 +11,7 @@
 
 **🎥 Project Demo Video: [Watch Placelytics in Action](https://www.youtube.com/watch?v=x7EAH00IGRc)**
 
-**📄 Complete project overview and detailed analysis available in [Placelytics - Report.pdf](https://docs.google.com/document/d/1S7YISCPXFQE48_2qo07bjtM4rMlxr2ycTGztADPoy3A/edit?tab=t.0)**
+**📄 Complete project overview and detailed analysis available in [Placelytics - Report](https://docs.google.com/document/d/1S7YISCPXFQE48_2qo07bjtM4rMlxr2ycTGztADPoy3A/edit?tab=t.0)**
 
 ## Key Results & Performance
 
@@ -37,7 +37,7 @@
 - **Training Effectiveness:** Placement training increases success by 1.4x
 - **Risk Identification:** 4,657 students (46.6%) identified as at-risk
 
-**📄 Complete business intelligence analysis and insights available in [Placelytics - Report.pdf](https://docs.google.com/document/d/1S7YISCPXFQE48_2qo07bjtM4rMlxr2ycTGztADPoy3A/edit?tab=t.0)**
+**📄 Complete business intelligence analysis and insights available in [Placelytics - Report](https://docs.google.com/document/d/1S7YISCPXFQE48_2qo07bjtM4rMlxr2ycTGztADPoy3A/edit?tab=t.0)**
 
 ### Student Segmentation (K-Means Clustering)
 - **Cluster 0 - Moderate Performers:** 2,767 students, 49.2% placement rate
@@ -63,7 +63,7 @@
 6. **Correlation Mining:** Feature relationship analysis
 7. **Performance Tiers:** Student classification system
 
-**📄 Detailed technical methodology available in [Placelytics - Report.pdf](https://docs.google.com/document/d/1S7YISCPXFQE48_2qo07bjtM4rMlxr2ycTGztADPoy3A/edit?tab=t.0)**
+**📄 Detailed technical methodology available in [Placelytics - Report](https://docs.google.com/document/d/1S7YISCPXFQE48_2qo07bjtM4rMlxr2ycTGztADPoy3A/edit?tab=t.0)**
 
 ### Data Processing Pipeline
 1. Data Quality Assessment (zero missing values)
@@ -131,7 +131,7 @@ This section showcases all the key visualizations and dashboard interfaces avail
 - **`advanced_dmbi_analysis.py`** - Comprehensive DMBI implementation with 8 analysis phases
 - **`College_Placement_Analysis.ipynb`** - Jupyter notebook with detailed analysis
 - **`placementdata.csv`** - Dataset with 10,000 student records
-- **[Placelytics - Report.pdf](https://docs.google.com/document/d/1S7YISCPXFQE48_2qo07bjtM4rMlxr2ycTGztADPoy3A/edit?tab=t.0)** - Comprehensive project report with detailed analysis and findings
+- **[Placelytics - Report](https://docs.google.com/document/d/1S7YISCPXFQE48_2qo07bjtM4rMlxr2ycTGztADPoy3A/edit?tab=t.0)** - Comprehensive project report with detailed analysis and findings
 
 ### Dashboard Applications
 - **`dmbi_dashboard.py`** - Advanced Business Intelligence dashboard (Main Application)
@@ -150,7 +150,7 @@ This section showcases all the key visualizations and dashboard interfaces avail
 
 ### Documentation
 - **`README.md`** - This comprehensive project documentation
-- **[Placelytics - Report.pdf](https://docs.google.com/document/d/1S7YISCPXFQE48_2qo07bjtM4rMlxr2ycTGztADPoy3A/edit?tab=t.0)** - Detailed technical report with complete analysis, methodology, and findings
+- **[Placelytics - Report](https://docs.google.com/document/d/1S7YISCPXFQE48_2qo07bjtM4rMlxr2ycTGztADPoy3A/edit?tab=t.0)** - Detailed technical report with complete analysis, methodology, and findings
 
 ## How to Run the Project
 
@@ -372,7 +372,7 @@ python quick_validation.py
 - Clustering validation with silhouette analysis
 - Comprehensive error analysis and model diagnostics
 
-**📄 For detailed validation methodology and results, refer to [Placelytics - Report.pdf](https://docs.google.com/document/d/1S7YISCPXFQE48_2qo07bjtM4rMlxr2ycTGztADPoy3A/edit?tab=t.0)**
+**📄 For detailed validation methodology and results, refer to [Placelytics - Report](https://docs.google.com/document/d/1S7YISCPXFQE48_2qo07bjtM4rMlxr2ycTGztADPoy3A/edit?tab=t.0)**
 
 ## Impact & Business Value
 
@@ -418,7 +418,7 @@ This comprehensive DMBI project successfully demonstrates advanced data mining a
 
 The combination of technical excellence (80.15% accuracy), business intelligence capabilities, and interactive visualization makes this a complete solution for educational institutions seeking to enhance their placement programs through data-driven decision making.
 
-**📄 For complete project documentation, detailed methodology, results analysis, and technical specifications, please refer to [Placelytics - Report.pdf](https://docs.google.com/document/d/1S7YISCPXFQE48_2qo07bjtM4rMlxr2ycTGztADPoy3A/edit?tab=t.0)**
+**📄 For complete project documentation, detailed methodology, results analysis, and technical specifications, please refer to [Placelytics - Report](https://docs.google.com/document/d/1S7YISCPXFQE48_2qo07bjtM4rMlxr2ycTGztADPoy3A/edit?tab=t.0)**
 
 **🎥 Watch the complete project demo: [Placelytics in Action - YouTube Video](https://www.youtube.com/watch?v=x7EAH00IGRc)**
 
